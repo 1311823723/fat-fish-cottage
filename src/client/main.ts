@@ -1,3 +1,4 @@
+import {mountWardrobe} from './wardrobe';
 import { openDiary } from "./diary";
 import { createArcadeUI } from "./arcade";
 import {createPanelClickGuard} from './panel-gestures.mjs';
@@ -58,8 +59,10 @@ function element<K extends keyof HTMLElementTagNameMap>(
   e.className = className;
   return e;
 }
+let wardrobeView:ReturnType<typeof mountWardrobe>|null=null;
 function open(title: string) {
-  panel.classList.remove("diary-mode", "arcade-mode", "board-mode", "menu-mode");
+  wardrobeView?.dispose();wardrobeView=null;
+  panel.classList.remove("diary-mode", "arcade-mode", "board-mode", "menu-mode", "wardrobe-mode");
   generation++;
   $("panelTitle").textContent = title;
   body.replaceChildren();
@@ -67,7 +70,7 @@ function open(title: string) {
   return generation;
 }
 $("closePanel").onclick = () => panel.close();
-panel.addEventListener("close", () => generation++);
+panel.addEventListener("close", () => {if(panel.open)return;generation++;wardrobeView?.dispose();wardrobeView=null;});
 const panelClickGuard=createPanelClickGuard();
 const panelControl=(target:EventTarget|null)=>target instanceof Element?target.closest('button,a,input,select,textarea,summary,[role="button"]'):null;
 document.addEventListener('pointerdown',event=>{
@@ -99,6 +102,7 @@ function render(w: World) {
   if (world && w.revision < world.revision) return;
   world = w;
   room.sync(w);
+  wardrobeView?.refresh();
   warmWardrobePreviews();
   if (w.identity) identity = w.identity;
   for (const key of ["hunger", "energy", "mood"]) {
@@ -167,6 +171,7 @@ async function command(type: string, args: any, button?: HTMLButtonElement) {
   const payload = JSON.stringify({ type, args }),
     old = button && pending.get(button);
   const id = old?.payload === payload ? old.id : newRequestId();
+  if(['activity','pet_interact','outfit_set'].includes(type))room.stopArrival();
   if (button) {
     pending.set(button, { id, payload });
     button.disabled = true;
@@ -197,40 +202,8 @@ async function command(type: string, args: any, button?: HTMLButtonElement) {
 const sceneAction = (name: string) => {
   if (name === 'wardrobe') {
     if (!world) return;
-    open('肥鱼的衣柜');
-    const auto=element('button');auto.type='button';
-    const updateAuto=()=>{auto.textContent=world.wardrobe?.auto!==false?'每天随机换装：开':'每天随机换装：关';auto.setAttribute('aria-pressed',String(world.wardrobe?.auto!==false));};
-    updateAuto();auto.onclick=async()=>{if(await command('wardrobe_auto',{enabled:world.wardrobe?.auto===false},auto))updateAuto();};
-    body.append(auto);
-    const grid=element('div','','wardrobe-grid');
-    let selected=world.wardrobe.outfit;
-    const cards:HTMLButtonElement[]=[];
-    for(const item of world.wardrobe?.outfits || []) {
-      const card=element('button','','wardrobe-card');card.type='button';
-      const art=element('img','','wardrobe-preview');
-      art.alt='';art.width=132;art.height=150;art.loading='eager';art.decoding='async';
-      art.onload=()=>card.classList.add('is-ready');
-      art.onerror=()=>{card.classList.add('preview-unavailable');card.append(element('small','预览暂不可用'));};
-      const preview=item.preview || (item.id==='original'?'/assets/reference-v1.png':item.photoReference);
-      if(/^\/assets\/(?:outfits\/[a-z0-9_-]+\/)?[a-zA-Z0-9_-]+\.(png|webp)$/.test(preview||'')) art.src=preview;
-      const label=element('span',item.name.replace('（试验）',''));
-      card.append(art,label);card.setAttribute('aria-pressed',String(item.id===selected));
-      card.onclick=()=>{selected=item.id;for(const b of cards)b.setAttribute('aria-pressed',String(b===card));};
-      cards.push(card);grid.append(card);
-    }
-    const change=element('button','立即换装');
-    change.disabled=selected===world.wardrobe.outfit;
-    for(const card of cards)card.addEventListener('click',()=>{change.disabled=selected===world.wardrobe.outfit;});
-    change.onclick=async()=>{
-      const next=selected;
-      for(const card of cards)card.disabled=true;
-      change.disabled=true;change.textContent='准备衣服中…';
-      try {
-        await room.prepareOutfit(next);
-        if(await command('outfit_set',{id:next},change)){room.warmOutfit(next);panel.close();}
-      } catch(e) {notice((e as Error).message);} finally {for(const card of cards)card.disabled=false;change.disabled=selected===world.wardrobe.outfit;change.textContent='立即换装';}
-    };
-    body.append(grid,change);
+    open('肥鱼的衣柜');panel.classList.add('wardrobe-mode');
+    wardrobeView=mountWardrobe({body,world:()=>world,prepare:(id,progress,signal)=>room.prepareOutfit(id,progress,signal),command,close:()=>panel.close()});
     return;
   }
   if (name === "pet_interact") {
@@ -260,6 +233,16 @@ const game = new Phaser.Game({
   render: { antialias: true, pixelArt: false },
   audio: { noAudio: true },
 });
+let arrivalTimer:ReturnType<typeof setTimeout>|undefined;
+function hideArrival(){clearTimeout(arrivalTimer);$('arrivalCard').hidden=true;delete $('game').dataset.arrival;}
+game.events.on('arrival-start',(event:any)=>{
+  clearTimeout(arrivalTimer);$('arrivalTitle').textContent='肥鱼回来了';
+  $('arrivalDetail').textContent=event.souvenir?.label?`从${event.place}带回了「${event.souvenir.label}」`:`在${event.place}逛完，回家歇一会儿。`;
+  $('arrivalCard').hidden=false;arrivalTimer=setTimeout(hideArrival,room.reducedMotion?3000:6500);
+});
+game.events.on('arrival-end',hideArrival);
+$('skipArrival').onclick=()=>{room.stopArrival();hideArrival();};
+document.addEventListener('visibilitychange',()=>{if(document.hidden){room.stopArrival();hideArrival();}});
 const arcadeUI = createArcadeUI({
   panel,
   body,

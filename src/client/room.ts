@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import {spriteScale} from './sprite-scale.mjs';
+import {arrivalCandidate,arrivalPose,ArrivalEvent} from './arrival.mjs';
 import outfitCatalog from "../../public/assets/outfits-v1.json";
 import roomRuntime from '../../public/assets/room-runtime.json';
 import roomLayout from '../../public/assets/room-layout-v6.json';
@@ -36,6 +37,9 @@ export class Room extends Phaser.Scene {
   onAction: Action;
   lastLayout = "";
   loading = new Set<string>();
+  failedAnimations = new Set<string>();
+  arrival: {event:ArrivalEvent;started:number}|null=null;
+  arrivalBag!:Phaser.GameObjects.Image;
   lastWarmedOutfit = '';
   tapLoading = false;
   petPressPointer: number | null = null;
@@ -80,6 +84,7 @@ export class Room extends Phaser.Scene {
     for(const outfit of outfitCatalog.outfits as any[]) for(const [name, info] of Object.entries(outfit.actions || {}) as [string,any][]) this.manifest[`${outfit.id}--${name}`]=info;
     this.layout = roomLayout;
     this.add.image(0, 0, "room").setOrigin(0).setDisplaySize(600, 800);
+    this.arrivalBag=this.add.image(0,0,'backpack-storybook').setDisplaySize(34,43).setDepth(5).setVisible(false);
     const tv = this.layout.objects.find(
       (o: any) => o.id === "television",
     ).bounds;
@@ -361,6 +366,8 @@ export class Room extends Phaser.Scene {
   }
   sync(w: World) {
     if (this.world && w.revision < this.world.revision) return;
+    const arrival=arrivalCandidate(this.world,w,w.serverTime);
+    if(this.arrival&&(w.travel.phase==='away'||(w.activity.manual&&w.activity.startedAt>=this.arrival.event.at)))this.stopArrival();
     this.curtainTarget = w.furnishings.curtainClosed ? 1 : 0;
     if (!this.furnishingsInitialized) {
       this.curtainProgress = this.curtainTarget;
@@ -368,6 +375,10 @@ export class Room extends Phaser.Scene {
     }
     this.world = w;
     this.offset = w.serverTime - Date.now();
+    if(arrival&&this.pet&&!document.hidden){
+      if(!this.reducedMotion){this.arrival={event:arrival,started:performance.now()};this.x=55;this.y=745;for(const name of ['walk_left','walk_right']){const dressed=`${w.wardrobe?.outfit}--${name}`;this.ensureAnim(this.manifest[dressed]?dressed:name);}}
+      this.game.events.emit('arrival-start',arrival);
+    }
     if (this.pet) {
       this.refreshEnvironment();
       const outfit=w.wardrobe?.outfit || 'original';
@@ -380,17 +391,25 @@ export class Room extends Phaser.Scene {
     if(signature===this.environmentSignature)return;
     this.environmentSignature=signature;this.drawEnvironment();
   }
-  async prepareOutfit(outfit: string) {
+  stopArrival(){
+    this.arrival=null;this.arrivalBag?.setVisible(false);this.backpackObject?.setVisible(this.world?.travel.phase!=='away');
+    if(this.game)this.game.events.emit('arrival-end');
+  }
+  async prepareOutfit(outfit: string, progress:(value:number)=>void=()=>{}, signal?:AbortSignal) {
     const activity=this.world?.activity?.name;
     const needed=activity==='walk'?['idle','walk_left','walk_right']:['idle',({sleep:'sleep',read:'read',tea:'tea',eat:'eat_rice',sing:'sing'} as Record<string,string>)[activity] || 'idle'];
+    if(['idle','rest'].includes(activity)&&['smile','sleepy','sad','angry'].includes(this.world?.mood?.expression))needed.push('expr_'+this.world.mood.expression);
     const names=[...new Set(needed)].map(n=>this.manifest[`${outfit}--${n}`]?`${outfit}--${n}`:n);
     for(const name of names)this.ensureAnim(name);
-    if(names.some(n=>!this.textures.exists(n)||this.loading.has(n))) await new Promise<void>((resolve,reject)=>{
-      const timer=window.setTimeout(()=>{this.load.off('complete',finish);reject(Error('服装素材加载超时，请检查网络后重试'));},30000);
-      const finish=()=>{clearTimeout(timer);resolve();};
-      this.load.once('complete',finish);
-    });
-    if(names.some(n=>!this.textures.exists(n)||this.loading.has(n))) throw Error('服装素材加载失败，请检查网络后重试');
+    const deadline=Date.now()+30000;
+    while(true){
+      if(signal?.aborted)throw new DOMException('已取消准备衣服','AbortError');
+      if(names.some(n=>this.failedAnimations.has(n)))throw Error('有张衣服素材没加载好，请重试');
+      const ready=names.filter(n=>this.textures.exists(n)&&!this.loading.has(n));progress(ready.length/names.length);
+      if(ready.length===names.length)break;
+      if(Date.now()>deadline)throw Error('服装素材加载超时，请检查网络后重试');
+      await new Promise(resolve=>window.setTimeout(resolve,60));
+    }
     for(const name of names)this.ensureAnim(name);
   }
   warmOutfit(outfit: string) {
@@ -412,7 +431,7 @@ export class Room extends Phaser.Scene {
       now = Date.now() + this.offset,
       h = new Date(now + 28800000).getUTCHours(),
       night = h < 5 || h >= 19;
-    this.backpackObject.setVisible(w.travel.phase !== "away");
+    this.backpackObject.setVisible(w.travel.phase !== "away"&&!this.arrival);
     const weather = w.weather.available ? w.weather.kind : "unknown",
       rain = ["rain", "thunder"].includes(weather);
     const canvas = this.textures.get(
@@ -692,21 +711,27 @@ export class Room extends Phaser.Scene {
   ensureAnim(name: string) {
     if (!this.manifest[name]) name = "idle";
     const idleKey=name.includes('--')?name.split('--')[0]+'--idle':'idle';
-    const fallback=this.anims.exists(idleKey)?idleKey:'idle';
+    const fallback=this.anims.exists(idleKey)?idleKey:(this.pet?.anims.currentAnim?.key||'idle');
     if (this.loading.has(name)) return fallback;
     if (!this.textures.exists(name)) {
       if (!this.loading.has(name)) {
         this.loading.add(name);
+        this.failedAnimations.delete(name);
         const info=this.manifest[name];
         if(info.grid) this.load.image(name,info.file);
         else this.load.spritesheet(name,info.file,{frameWidth:256,frameHeight:256});
-        this.load.once("complete", () => {
+        const cleanup=()=>{this.load.off('filecomplete',ready);this.load.off('loaderror',failed);};
+        const failed=(file:any)=>{if(file.key!==name)return;cleanup();this.loading.delete(name);this.failedAnimations.add(name);};
+        const ready=(key:string) => {
+          if(key!==name)return;
+          cleanup();
           this.loading.delete(name);
           if(info.grid && this.textures.exists(name)) {
             const texture=this.textures.get(name),grid=info.grid;
             for(let frame=0;frame<info.frames;frame++) texture.add(String(frame),0,Math.floor(frame%grid.columns*grid.columnStep),grid.offsetY+Math.floor(frame/grid.columns)*grid.rowStep,grid.width,grid.height);
           }
-        });
+        };
+        this.load.on('filecomplete',ready);this.load.on('loaderror',failed);
         this.load.start();
       }
       return fallback;
@@ -793,6 +818,16 @@ export class Room extends Phaser.Scene {
       ).standPoint;
       tx = point.x;
       ty = point.y;
+    }
+    if(this.arrival){
+      const desk=this.layout.objects.find((object:any)=>object.id==='desk').standPoint;
+      const pose=arrivalPose(performance.now()-this.arrival.started,{x:55,y:745},desk,this.layout.rest);
+      if(pose){
+        name=pose.action;tx=pose.x;ty=pose.y;
+        this.backpackObject.setVisible(false);
+        this.arrivalBag.setVisible(pose.phase!=='settle').setPosition(pose.carrying?this.x+38:desk.x+40,pose.carrying?this.y-40:desk.y-5);
+        document.getElementById('game')!.dataset.arrival=pose.phase;
+      }else this.stopArrival();
     }
     const reaction =
       w.petReaction && now < w.petReaction.until ? w.petReaction : null;

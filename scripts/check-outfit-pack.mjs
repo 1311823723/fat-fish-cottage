@@ -11,6 +11,7 @@ export async function checkOutfitPack(directory) {
   catch { return {ok:false,errors:['无法读取有效的 outfit.json']}; }
   if(!/^[a-z][a-z0-9_-]{0,39}$/.test(manifest.id||'')) errors.push('id 应为 1～40 位小写字母、数字、下划线或短横线，且以字母开头');
   if(typeof manifest.name!=='string'||!manifest.name.trim()||manifest.name.length>40) errors.push('name 应为 1～40 个字符');
+  if(manifest.description!==undefined&&(typeof manifest.description!=='string'||manifest.description.length>100))errors.push('description 应为 100 字以内的外观描述');
   if(manifest.inspiration!==undefined && (typeof manifest.inspiration!=='string'||manifest.inspiration.length>120)) errors.push('inspiration 应为 120 字以内的服装来源说明');
   if(manifest.photoDescription !== undefined && (typeof manifest.photoDescription !== 'string' || manifest.photoDescription.length > 300)) errors.push('photoDescription 应为 300 字以内的文字');
   if(manifest.preview !== undefined){

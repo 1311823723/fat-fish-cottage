@@ -3,7 +3,8 @@
     {
       "id": "original",
       "name": "经典女仆装",
-      "preview": "/assets/wardrobe-original-447459e03fc3.webp"
+      "preview": "/assets/wardrobe-original-447459e03fc3.webp",
+      "description": "深蓝女仆裙，白色围裙和小鲸鱼发饰。"
     },
     {
       "id": "whale_knit",
@@ -236,7 +237,8 @@
       },
       "photoReference": "/assets/outfits/whale_knit/reference.png",
       "photoDescription": "cream whale sweater and blue plaid skirt",
-      "preview": "/assets/outfits/whale_knit/preview-08f679ecc24b.webp"
+      "preview": "/assets/outfits/whale_knit/preview-08f679ecc24b.webp",
+      "description": "奶白针织衫配蓝格裙，软软的鲸鱼小挎包。"
     },
     {
       "id": "whale_hood",
@@ -469,7 +471,8 @@
       },
       "photoDescription": "navy whale hood with water spout, white fur trim, blue and white striped scarf and navy winter coat with whale motifs",
       "photoReference": "/assets/outfits/whale_hood/reference.png",
-      "preview": "/assets/outfits/whale_hood/preview-8b2234ee2774.webp"
+      "preview": "/assets/outfits/whale_hood/preview-8b2234ee2774.webp",
+      "description": "戴着鲸鱼兜帽，围好蓝白围巾的毛绒冬装。"
     },
     {
       "id": "cream_hoodie",
@@ -703,7 +706,8 @@
           }
         }
       },
-      "preview": "/assets/outfits/cream_hoodie/preview-a6c97c604710.webp"
+      "preview": "/assets/outfits/cream_hoodie/preview-a6c97c604710.webp",
+      "description": "奶油色卫衣配焦糖裙，别着一颗橙色小星星。"
     },
     {
       "id": "cat_paw",
@@ -937,7 +941,8 @@
           }
         }
       },
-      "preview": "/assets/outfits/cat_paw/preview-1560ba678cec.webp"
+      "preview": "/assets/outfits/cat_paw/preview-1560ba678cec.webp",
+      "description": "蓝绒猫耳帽，圆眼猫脸和软乎乎的猫爪手套。"
     },
     {
       "id": "whale_pajamas",
@@ -1170,7 +1175,8 @@
       },
       "photoDescription": "pale powder-blue button-up pajama shirt with white piping and small whale chest pocket motif, matching loose full-length whale print trousers, cream plush whale slippers and blue bow hair clip; no hood or hat",
       "photoReference": "/assets/outfits/whale_pajamas/reference.png",
-      "preview": "/assets/outfits/whale_pajamas/preview-91793fbcb98d.webp"
+      "preview": "/assets/outfits/whale_pajamas/preview-91793fbcb98d.webp",
+      "description": "浅蓝鲸鱼印花睡衣，配一双奶油色小拖鞋。"
     }
   ]
 }

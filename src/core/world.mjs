@@ -127,6 +127,7 @@ function arrive(w, events, at) {
   w.travel.pending.push(trip);
   w.travel.current = null;
   w.travel.lastReturnedAt = at;
+  w.travel.lastReturn = {tripId:trip.id,place:trip.place.label,at,souvenir:trip.souvenir?{id:trip.souvenir.id,label:trip.souvenir.label}:null};
   w.travel.nextDecisionAt = at + 20 * 60000;
   w.location = "home";
   w.activity = { name: "rest", startedAt: at, until: at + 20 * 60000 };
@@ -139,6 +140,8 @@ export function settle(w, now, events) {
     const outfits=outfitCatalog.outfits.filter(x=>x.id!==w.wardrobe.outfit);
     if(outfits.length) w.wardrobe.outfit=outfits[Math.floor(Math.random()*outfits.length)].id;
     w.wardrobe.morning=today;
+    w.wardrobe.changedAt=now;
+    w.wardrobe.automatic=true;
     event(events,'outfit_changed',{outfit:w.wardrobe.outfit,automatic:true},now);
   }
   const begin = Math.max(w.settledAt, now - 8 * 3600000);
@@ -257,6 +260,8 @@ export function apply(w, command, actor, now, events) {
     if(!outfitCatalog.outfits.some(x=>x.id===args.id)) throw Error('没有这套衣服');
     w.wardrobe ??= {outfit:'original',morning:''};
     w.wardrobe.outfit=args.id;
+    w.wardrobe.changedAt=now;
+    w.wardrobe.automatic=false;
     w.wardrobe.morning=new Date(now+28800000).toISOString().slice(0,10);
     event(events,'outfit_changed',{outfit:args.id,automatic:false},now);
   } else if (type === "pet_interact") {
@@ -636,7 +641,12 @@ export function publicWorld(w, now) {
         : null,
     petTapReadyAt: w.petTapReadyAt || 0,
     furnishings: w.furnishings,
-    wardrobe: {outfit:w.wardrobe?.outfit || 'original',auto:w.wardrobe?.auto!==false,outfits:outfitCatalog.outfits.map(({id,name,preview,photoReference,inspiration})=>({id,name,preview,photoReference,inspiration}))},
+    wardrobe: {
+      outfit:w.wardrobe?.outfit || 'original',auto:w.wardrobe?.auto!==false,
+      changedAt:w.wardrobe?.changedAt||null,automatic:w.wardrobe?.automatic??null,
+      current:(()=>{const item=outfitCatalog.outfits.find(o=>o.id===(w.wardrobe?.outfit||'original'));return item?{id:item.id,name:item.name.replace('（试验）',''),description:item.description||''}:null;})(),
+      outfits:outfitCatalog.outfits.map(({id,name,description,preview,photoReference,inspiration})=>({id,name:name.replace('（试验）',''),description:description||'',preview,photoReference,inspiration}))
+    },
     weather: w.weather,
     backpack: w.backpack,
     packing: {
@@ -670,6 +680,8 @@ export function publicWorld(w, now) {
         }),
       ),
       phase: trip ? "away" : "home",
+      tripId:trip?.id,
+      lastReturn:w.travel.lastReturn||null,
       destination: trip?.place.label,
       note: trip?.note,
       returnAt: trip?.returnAt,
