@@ -50,6 +50,22 @@ export function takeHomePlan(w,now){
  return null;
 }
 const labels={read:'翻起了书',rest:'坐下歇一会',walk:'在屋里走走',sing:'轻轻哼歌',sleep:'睡觉了',wake:'醒来了'};
+export function sameActivity(a,b){return !!a&&!!b&&['name','reason','anchor','plan'].every(key=>(a[key]||'')===(b[key]||''));}
+// Old versions recorded the 30-minute sleep renewal as a new activity. Preserve
+// the first entry; only compact the recognizable legacy renewal chain.
+export function compactLifeRecords(records){
+ const output=[];let sleepAt=null;
+ for(const row of [...records].sort((a,b)=>a.at-b.at)){
+  if(row.kind==='activity_started'){
+   if(row.text==='睡觉了'){
+    const gap=sleepAt===null?null:row.at-sleepAt;sleepAt=row.at;
+    if(!row.transition&&gap!==null&&gap>=29*60000&&gap<=31*60000)continue;
+   }else sleepAt=null;
+  }else if(['departed','returned','meal','travel_meal'].includes(row.kind))sleepAt=null;
+  output.push(row);
+ }
+ return output;
+}
 export function recordLife(w,events,now,outfits,menu){
  const life=lifeState(w,now);
  for(const e of events){
@@ -65,12 +81,11 @@ export function recordLife(w,events,now,outfits,menu){
   if(e.type==='activity_started'){
    text=labels[e.data.name]||'';
    const reason=publicText(e.data.reason,65);if(text&&reason)text+=' · '+reason;
-   const previous=life.records.at(-1);if(previous?.text===text&&e.at-previous.at<20*60000)continue;
   }
   if(!text||life.records.some(r=>r.id===e.id))continue;
-  life.records.push({id:e.id,at:e.at,kind:e.type,text,...(tripId?{tripId}:{})});
+  life.records.push({id:e.id,at:e.at,kind:e.type,text,...(e.data.transition?{transition:true}:{}),...(tripId?{tripId}:{})});
  }
- life.records=life.records.filter(r=>r.at>=now-3*24*hour).sort((a,b)=>a.at-b.at).slice(-160);
+ life.records=compactLifeRecords(life.records).filter(r=>r.at>=now-3*24*hour).slice(-160);
 }
 export function publicLife(w,now){
  const life=w.life;return {since:life?.since||now,records:(life?.records||[]).filter(r=>r.at>=now-24*hour).slice(-60)};

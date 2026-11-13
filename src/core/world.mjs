@@ -5,7 +5,7 @@ import { freezeScene,sanitizePhotoIdeas } from "./scene.mjs";
 import { departureNote } from "./note.mjs";
 import { displayCaption } from "./caption.mjs";
 import { MENU, PACK, GEAR, dailySupply } from "./catalog.mjs";
-import {queueHomePlan,saveHomePlans,takeHomePlan,publicLife} from './life.mjs';
+import {queueHomePlan,saveHomePlans,takeHomePlan,publicLife,sameActivity} from './life.mjs';
 export { MENU, PACK } from "./catalog.mjs";
 export const PLACES = [
   {
@@ -216,6 +216,7 @@ export function settle(w, now, events) {
   if (w.travel.current) {
     w.location = w.travel.current.place.label;
   } else if (w.activity.until <= now) {
+    const previousActivity=w.activity;
     const planned=takeHomePlan(w,now);
     const h = new Date(now + 28800000).getUTCHours();
     const sleep = h >= 23 || h < 7 || w.energy < 20;
@@ -249,7 +250,11 @@ export function settle(w, now, events) {
     };
     if(planned)w.activity=planned;
     if (w.activity.name === "sing") w.lastHumAt = now;
-    if(w.activity.name!=='idle')event(events,'activity_started',{name:w.activity.name,reason:w.activity.reason||''},now);
+    if(sameActivity(previousActivity,w.activity))w.activity.startedAt=previousActivity.startedAt;
+    else {
+      if(previousActivity?.name==='sleep'&&w.activity.name!=='sleep')event(events,'activity_started',{name:'wake',transition:true},now);
+      if(w.activity.name!=='idle')event(events,'activity_started',{name:w.activity.name,reason:w.activity.reason||'',transition:true},now);
+    }
   }
   queueHomePlan(w,now,(type,data)=>event(events,type,data,now));
 }
@@ -377,6 +382,7 @@ export function apply(w, command, actor, now, events) {
       ].includes(args.name)
     )
       throw Error("动作无效");
+    const previousActivity=w.activity;
     let mealKind, foodItem;
     if (["eat", "tea"].includes(args.name)) {
       const food =
@@ -415,7 +421,10 @@ export function apply(w, command, actor, now, events) {
     };
     delete w.petReaction;
     if (args.name === "sing") w.lastHumAt = now;
-    event(events, "activity_started", { name: args.name }, now);
+    if(!sameActivity(previousActivity,w.activity)){
+      if(previousActivity?.name==='sleep'&&w.activity.name!=='sleep'&&args.name!=='wake')event(events,'activity_started',{name:'wake',transition:true},now);
+      event(events, "activity_started", { name: args.name,transition:true }, now);
+    }
   } else if (type === "travel_decision" || type === "qq_travel") {
     const requested = type === "qq_travel";
     const reject = reason => { if (requested) throw Error(reason); };
