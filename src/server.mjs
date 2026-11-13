@@ -176,7 +176,7 @@ export function makeServer(c = config(), { store, fetcher = fetch, photoDirector
             ok: true,
             jobs: store.db
               .prepare(
-                "SELECT id,kind,payload,due FROM outbox WHERE status='pending' AND due<=? ORDER BY kind='board-reply',kind='arcade-review',due LIMIT 30",
+                "SELECT id,kind,payload,due FROM outbox WHERE status='pending' AND due<=? ORDER BY kind='photo-idea' DESC,kind='board-reply',kind='arcade-review',due LIMIT 30",
               )
               .all(Date.now())
               .map((x) => ({ ...x, payload: JSON.parse(x.payload) })),
@@ -201,7 +201,7 @@ export function makeServer(c = config(), { store, fetcher = fetch, photoDirector
           return;
         }
         if (url.pathname === "/internal/outbox/claim") {
-          if (!["share", "decision", "photo", "arcade-review", "leave-notify", "return-care-plan", "return-care", "board-reply"].includes(b.kind))
+          if (!["share", "decision", "photo", "photo-idea", "arcade-review", "leave-notify", "return-care-plan", "return-care", "board-reply"].includes(b.kind))
             throw Error("类型错误");
           json({
             ok: true,

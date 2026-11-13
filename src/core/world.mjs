@@ -1,7 +1,7 @@
 import roomLayout from "../../public/assets/room-layout-v6.json" with { type: "json" };
 import outfitCatalog from "../../public/assets/outfits-v1.json" with { type: "json" };
 import { randomUUID } from "node:crypto";
-import { freezeScene } from "./scene.mjs";
+import { freezeScene,sanitizePhotoIdeas } from "./scene.mjs";
 import { departureNote } from "./note.mjs";
 import { displayCaption } from "./caption.mjs";
 import { MENU, PACK, GEAR, dailySupply } from "./catalog.mjs";
@@ -520,6 +520,10 @@ export function apply(w, command, actor, now, events) {
     w.travel.current = trip;
     w.location = place.label;
     event(events, "departed", { tripId: id, intent: trip.intent }, now);
+  } else if (type === 'photo_idea') {
+    if(!actor.system)throw Error('内部操作');
+    const trip=[w.travel.current,...w.travel.pending].find(trip=>trip?.id===args.tripId);
+    if(trip&&!trip.photoScene&&!trip.photoIdeaDone){trip.photoIdeas=sanitizePhotoIdeas(args.ideas);trip.photoIdeaDone=true;event(events,'photo_ideas_prepared',{tripId:trip.id,count:trip.photoIdeas.length},now);}
   } else if (type === "photo_capture") {
     if (!actor.system) throw Error("内部操作");
     const t = w.travel.current;

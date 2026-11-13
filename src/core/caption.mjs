@@ -60,6 +60,7 @@ const notes = {
 };
 
 export function albumCaption(scene = {}, place = "", key = "") {
+  if(scene?.planningSource&&typeof scene.caption==='string'&&scene.caption.trim())return scene.caption.trim().slice(0,160);
   const choices = notes[scene?.activity] || [
     "把这一刻留在这里。",
     "这一页，留给路上的片刻。",
