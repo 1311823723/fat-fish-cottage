@@ -410,6 +410,7 @@ export class Room extends Phaser.Scene {
   async prepareOutfit(outfit: string, progress:(value:number)=>void=()=>{}, signal?:AbortSignal) {
     const activity=this.world?.activity?.name;
     const needed=activity==='walk'?['idle','walk_left','walk_right']:['idle',({sleep:'sleep',read:'read',tea:'tea',eat:'eat_rice',sing:'sing'} as Record<string,string>)[activity] || 'idle'];
+    if(this.world?.activity?.plan)needed.push('walk_left','walk_right');
     if(['idle','rest'].includes(activity)&&['smile','sleepy','sad','angry'].includes(this.world?.mood?.expression))needed.push('expr_'+this.world.mood.expression);
     const names=[...new Set(needed)].map(n=>this.manifest[`${outfit}--${n}`]?`${outfit}--${n}`:n);
     for(const name of names)this.ensureAnim(name);
@@ -834,6 +835,7 @@ export class Room extends Phaser.Scene {
       tx = point.x;
       ty = point.y;
     }
+    if(a.plan&&a.anchor==='desk'&&a.name==='rest'){const point=this.layout.objects.find((o:any)=>o.id==='desk').standPoint;tx=point.x;ty=point.y;}
     if(leaving){
       name=leaving.action;tx=leaving.x;ty=leaving.y;
       this.backpackObject.setVisible(!leaving.carrying);this.notePaper.setVisible(leaving.note);
@@ -867,6 +869,10 @@ export class Room extends Phaser.Scene {
     } else {
       this.reactionAnchor = null;
       this.playingReactionId = null;
+    }
+    if(a.plan&&!reaction&&!leaving&&!this.arrival&&a.name!=='walk'){
+      const distance=Math.hypot(tx-this.x,ty-this.y),step=85*Math.min(delta,100)/1000;
+      if(distance>4){const dx=tx-this.x,dy=ty-this.y;this.x+=dx/Math.max(distance,step)*step;this.y+=dy/Math.max(distance,step)*step;name=dx>=0?'walk_right':'walk_left';tx=this.x;ty=this.y;}
     }
     const factor = 1 - Math.exp(-Math.min(delta, 100) / 190);
     this.x += (tx - this.x) * factor;

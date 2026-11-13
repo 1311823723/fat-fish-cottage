@@ -2,6 +2,9 @@ import { DatabaseSync } from "node:sqlite";
 import { EventEmitter } from "node:events";
 import { initial, settle, apply, publicWorld } from "./world.mjs";
 import { Arcade } from "./arcade.mjs";
+import outfitCatalog from '../../public/assets/outfits-v1.json' with {type:'json'};
+import {MENU} from './catalog.mjs';
+import {recordLife} from './life.mjs';
 export class Store extends EventEmitter {
   constructor(file = ":memory:", clock = Date.now) {
     super();
@@ -45,6 +48,7 @@ export class Store extends EventEmitter {
         before = JSON.stringify(w);
       if (command || now - w.settledAt >= 1000) settle(w, now, events);
       if (command) apply(w, command, actor, now, events);
+      recordLife(w,events,now,outfitCatalog.outfits,MENU);
       if (JSON.stringify(w) !== before) {
         w.revision++;
         w.updatedAt = now;
@@ -60,6 +64,7 @@ export class Store extends EventEmitter {
             this.enqueue("photo:" + trip.id, "photo", { tripId: trip.id }, now);
             this.enqueue("return-care:" + trip.id, "return-care-plan", { tripId: trip.id }, now);
           }
+          if(e.type==='home_plan_due')this.enqueue('home-plan:'+e.data.id,'home-plan',{id:e.data.id},now);
           if(e.type==='departed')this.enqueue('photo-idea:'+e.data.tripId,'photo-idea',{tripId:e.data.tripId},now);
         }
       }

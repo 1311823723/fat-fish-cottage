@@ -201,7 +201,7 @@ export function makeServer(c = config(), { store, fetcher = fetch, photoDirector
           return;
         }
         if (url.pathname === "/internal/outbox/claim") {
-          if (!["share", "decision", "photo", "photo-idea", "arcade-review", "leave-notify", "return-care-plan", "return-care", "board-reply"].includes(b.kind))
+          if (!["share", "decision", "photo", "photo-idea", "home-plan", "arcade-review", "leave-notify", "return-care-plan", "return-care", "board-reply"].includes(b.kind))
             throw Error("类型错误");
           json({
             ok: true,

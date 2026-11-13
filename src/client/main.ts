@@ -1,3 +1,4 @@
+import {mountLife} from './life';
 import {mountTrip} from './trip';
 import {mountWardrobe} from './wardrobe';
 import { openDiary } from "./diary";
@@ -60,6 +61,7 @@ function element<K extends keyof HTMLElementTagNameMap>(
   e.className = className;
   return e;
 }
+const lifeView=mountLife({button:$<HTMLButtonElement>('lifeRecords'),hint:$('activityReason'),open,body,openTrip,getWorld:()=>world});
 let wardrobeView:ReturnType<typeof mountWardrobe>|null=null;
 let tripView:ReturnType<typeof mountTrip>|null=null;
 function open(title: string) {
@@ -106,6 +108,7 @@ function render(w: World) {
   room.sync(w);
   wardrobeView?.refresh();tripView?.refresh(w);
   warmWardrobePreviews();
+  lifeView?.refresh();
   if (w.identity) identity = w.identity;
   for (const key of ["hunger", "energy", "mood"]) {
     const n = key === "mood" ? w.mood.value : w[key];

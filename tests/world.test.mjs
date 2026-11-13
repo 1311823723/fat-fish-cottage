@@ -23,7 +23,7 @@ test("transaction request deduplication is actor scoped, persists and cannot ove
     s.transact({ ...c, requestId: "overfill-00001" }, { id: "guest-a" }),
   );
   assert.equal(s.raw().stock.tomato, 12);
-  assert.equal(s.db.prepare("SELECT count(*) n FROM events").get().n, 12);
+  assert.equal(s.db.prepare("SELECT count(*) n FROM events WHERE json_extract(json,'$.type')='restocked'").get().n, 12);
   s.close();
 });
 test("offline settlement is capped to 8h, food restores hunger, no relation changes", () => {

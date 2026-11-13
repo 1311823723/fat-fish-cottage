@@ -5,6 +5,7 @@ import { freezeScene,sanitizePhotoIdeas } from "./scene.mjs";
 import { departureNote } from "./note.mjs";
 import { displayCaption } from "./caption.mjs";
 import { MENU, PACK, GEAR, dailySupply } from "./catalog.mjs";
+import {queueHomePlan,saveHomePlans,takeHomePlan,publicLife} from './life.mjs';
 export { MENU, PACK } from "./catalog.mjs";
 export const PLACES = [
   {
@@ -215,6 +216,7 @@ export function settle(w, now, events) {
   if (w.travel.current) {
     w.location = w.travel.current.place.label;
   } else if (w.activity.until <= now) {
+    const planned=takeHomePlan(w,now);
     const h = new Date(now + 28800000).getUTCHours();
     const sleep = h >= 23 || h < 7 || w.energy < 20;
     const stretch =
@@ -245,12 +247,18 @@ export function settle(w, now, events) {
       until:
         now + (sleep ? 30 : stretch && !wet ? 0.5 : hum ? 0.75 : 5) * 60000,
     };
+    if(planned)w.activity=planned;
     if (w.activity.name === "sing") w.lastHumAt = now;
+    if(w.activity.name!=='idle')event(events,'activity_started',{name:w.activity.name,reason:w.activity.reason||''},now);
   }
+  queueHomePlan(w,now,(type,data)=>event(events,type,data,now));
 }
 export function apply(w, command, actor, now, events) {
   const { type, args = {} } = command;
-  if(type==='wardrobe_auto'){
+  if(type==='home_plan'){
+    if(!actor.system)throw Error('内部操作');
+    if(saveHomePlans(w,args,now))event(events,'home_plans_prepared',{},now);
+  } else if(type==='wardrobe_auto'){
     if(typeof args.enabled!=='boolean')throw Error('换装设置无效');
     w.wardrobe ??= {outfit:'original',morning:''};
     w.wardrobe.auto=args.enabled;
@@ -632,6 +640,7 @@ export function publicWorld(w, now) {
     },
     room: roomLayout,
     location: w.location,
+    life:publicLife(w,now),
     activity: { fromX: 0.25, toX: 0.75, ...w.activity },
     petReaction:
       !trip &&
