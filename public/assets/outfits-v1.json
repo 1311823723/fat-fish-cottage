@@ -482,227 +482,243 @@
       "photoReference": "/assets/outfits/cream_hoodie/reference.png",
       "actions": {
         "idle": {
-          "file": "/assets/outfits/cream_hoodie/idle-runtime-d3f116c8150b.webp",
+          "file": "/assets/outfits/cream_hoodie/idle-runtime-fc58e22b5cde.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 0,
             "rowStep": 650,
-            "width": 271,
-            "height": 650
+            "width": 399,
+            "height": 650,
+            "padding": 64
           }
         },
         "walk_left": {
-          "file": "/assets/outfits/cream_hoodie/walk_left-runtime-e206f396e177.webp",
+          "file": "/assets/outfits/cream_hoodie/walk_left-runtime-ad2f4022a5e6.webp",
           "frames": 8,
           "fps": 8,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 13,
             "rowStep": 640,
-            "width": 271,
-            "height": 640
+            "width": 399,
+            "height": 640,
+            "padding": 64
           }
         },
         "walk_right": {
-          "file": "/assets/outfits/cream_hoodie/walk_right-runtime-8f6297f62af2.webp",
+          "file": "/assets/outfits/cream_hoodie/walk_right-runtime-dadbfec11f47.webp",
           "frames": 8,
           "fps": 8,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 0,
             "rowStep": 667,
-            "width": 271,
-            "height": 667
+            "width": 399,
+            "height": 667,
+            "padding": 64
           }
         },
         "sleep": {
-          "file": "/assets/outfits/cream_hoodie/sleep-runtime-52fea8cf7480.webp",
+          "file": "/assets/outfits/cream_hoodie/sleep-runtime-1de280b5f765.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 152,
             "rowStep": 387,
-            "width": 271,
-            "height": 387
+            "width": 399,
+            "height": 387,
+            "padding": 64
           }
         },
         "wake": {
-          "file": "/assets/outfits/cream_hoodie/wake-runtime-a245802bc87b.webp",
+          "file": "/assets/outfits/cream_hoodie/wake-runtime-9cec852a0ca8.webp",
           "frames": 8,
           "fps": 6,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 9,
             "rowStep": 661,
-            "width": 271,
-            "height": 661
+            "width": 399,
+            "height": 661,
+            "padding": 64
           }
         },
         "tea": {
-          "file": "/assets/outfits/cream_hoodie/tea-runtime-4cda3e8c71ac.webp",
+          "file": "/assets/outfits/cream_hoodie/tea-runtime-9ad42fe864db.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 0,
             "rowStep": 724,
-            "width": 271,
-            "height": 724
+            "width": 399,
+            "height": 724,
+            "padding": 64
           }
         },
         "eat_taiyaki": {
-          "file": "/assets/outfits/cream_hoodie/eat_taiyaki-runtime-c5e4a598d99a.webp",
+          "file": "/assets/outfits/cream_hoodie/eat_taiyaki-runtime-12023a39b43c.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 0,
             "rowStep": 724,
-            "width": 271,
-            "height": 724
+            "width": 399,
+            "height": 724,
+            "padding": 64
           }
         },
         "expr_smile": {
-          "file": "/assets/outfits/cream_hoodie/expr_smile-runtime-dcddebc444a4.webp",
+          "file": "/assets/outfits/cream_hoodie/expr_smile-runtime-d766589d1619.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 0,
             "rowStep": 655,
-            "width": 271,
-            "height": 655
+            "width": 399,
+            "height": 655,
+            "padding": 64
           }
         },
         "expr_sad": {
-          "file": "/assets/outfits/cream_hoodie/expr_sad-runtime-4c263c98a223.webp",
+          "file": "/assets/outfits/cream_hoodie/expr_sad-runtime-c53608da4933.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 0,
             "rowStep": 686,
-            "width": 271,
-            "height": 686
+            "width": 399,
+            "height": 686,
+            "padding": 64
           }
         },
         "expr_angry": {
-          "file": "/assets/outfits/cream_hoodie/expr_angry-runtime-9885c2da445d.webp",
+          "file": "/assets/outfits/cream_hoodie/expr_angry-runtime-828d0cef65e1.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 0,
             "rowStep": 656,
-            "width": 271,
-            "height": 656
+            "width": 399,
+            "height": 656,
+            "padding": 64
           }
         },
         "expr_sleepy": {
-          "file": "/assets/outfits/cream_hoodie/expr_sleepy-runtime-a708392fe6a2.webp",
+          "file": "/assets/outfits/cream_hoodie/expr_sleepy-runtime-2e0be191b32b.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 0,
             "rowStep": 649,
-            "width": 271,
-            "height": 649
+            "width": 399,
+            "height": 649,
+            "padding": 64
           }
         },
         "read": {
-          "file": "/assets/outfits/cream_hoodie/read-runtime-882d1cc18e0c.webp",
+          "file": "/assets/outfits/cream_hoodie/read-runtime-a03deb99c91d.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 0,
             "rowStep": 680,
-            "width": 271,
-            "height": 680
+            "width": 399,
+            "height": 680,
+            "padding": 64
           }
         },
         "sing": {
-          "file": "/assets/outfits/cream_hoodie/sing-runtime-5258660918dd.webp",
+          "file": "/assets/outfits/cream_hoodie/sing-runtime-f31b95ac1788.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 0,
             "rowStep": 677,
-            "width": 271,
-            "height": 677
+            "width": 399,
+            "height": 677,
+            "padding": 64
           }
         },
         "eat_rice": {
-          "file": "/assets/outfits/cream_hoodie/eat_rice-runtime-4edb500896da.webp",
+          "file": "/assets/outfits/cream_hoodie/eat_rice-runtime-ee4386a2d0b0.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 0,
             "rowStep": 708,
-            "width": 271,
-            "height": 708
+            "width": 399,
+            "height": 708,
+            "padding": 64
           }
         },
         "headpat": {
-          "file": "/assets/outfits/cream_hoodie/headpat-runtime-2004c0277b02.webp",
+          "file": "/assets/outfits/cream_hoodie/headpat-runtime-9a6718e07c42.webp",
           "frames": 8,
           "fps": 4,
           "once": true,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 0,
             "rowStep": 672,
-            "width": 271,
-            "height": 672
+            "width": 399,
+            "height": 672,
+            "padding": 64
           }
         },
         "spin": {
-          "file": "/assets/outfits/cream_hoodie/spin-runtime-0494955dbdb3.webp",
+          "file": "/assets/outfits/cream_hoodie/spin-runtime-ad6f77167522.webp",
           "frames": 8,
           "fps": 6,
           "once": true,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 0,
             "rowStep": 672,
-            "width": 271,
-            "height": 672
+            "width": 399,
+            "height": 672,
+            "padding": 64
           }
         }
       },
@@ -717,227 +733,243 @@
       "photoReference": "/assets/outfits/cat_paw/reference.png",
       "actions": {
         "idle": {
-          "file": "/assets/outfits/cat_paw/idle-runtime-50aa6dc3222b.webp",
+          "file": "/assets/outfits/cat_paw/idle-runtime-9b3502aca3c0.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 23,
             "rowStep": 580,
-            "width": 271,
-            "height": 580
+            "width": 399,
+            "height": 580,
+            "padding": 64
           }
         },
         "walk_left": {
-          "file": "/assets/outfits/cat_paw/walk_left-runtime-f020aff160f5.webp",
+          "file": "/assets/outfits/cat_paw/walk_left-runtime-57c2af729720.webp",
           "frames": 8,
           "fps": 8,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 25,
             "rowStep": 617,
-            "width": 271,
-            "height": 617
+            "width": 399,
+            "height": 617,
+            "padding": 64
           }
         },
         "walk_right": {
-          "file": "/assets/outfits/cat_paw/walk_right-runtime-6bf57416f3e6.webp",
+          "file": "/assets/outfits/cat_paw/walk_right-runtime-47cfa4ff3e7a.webp",
           "frames": 8,
           "fps": 8,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 25,
             "rowStep": 615,
-            "width": 271,
-            "height": 615
+            "width": 399,
+            "height": 615,
+            "padding": 64
           }
         },
         "sleep": {
-          "file": "/assets/outfits/cat_paw/sleep-runtime-5ea94e46f2c1.webp",
+          "file": "/assets/outfits/cat_paw/sleep-runtime-f707afbef2ad.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 177,
             "rowStep": 383,
-            "width": 271,
-            "height": 383
+            "width": 399,
+            "height": 383,
+            "padding": 64
           }
         },
         "wake": {
-          "file": "/assets/outfits/cat_paw/wake-runtime-d866011ccbed.webp",
+          "file": "/assets/outfits/cat_paw/wake-runtime-e8d74cc417d2.webp",
           "frames": 8,
           "fps": 6,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 39,
             "rowStep": 587,
-            "width": 271,
-            "height": 587
+            "width": 399,
+            "height": 587,
+            "padding": 64
           }
         },
         "tea": {
-          "file": "/assets/outfits/cat_paw/tea-runtime-18d8693b677d.webp",
+          "file": "/assets/outfits/cat_paw/tea-runtime-832217e6e8cd.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 0,
             "rowStep": 665,
-            "width": 271,
-            "height": 665
+            "width": 399,
+            "height": 665,
+            "padding": 64
           }
         },
         "eat_taiyaki": {
-          "file": "/assets/outfits/cat_paw/eat_taiyaki-runtime-daa46b9a50e1.webp",
+          "file": "/assets/outfits/cat_paw/eat_taiyaki-runtime-4e0cacd7c445.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 0,
             "rowStep": 665,
-            "width": 271,
-            "height": 665
+            "width": 399,
+            "height": 665,
+            "padding": 64
           }
         },
         "expr_smile": {
-          "file": "/assets/outfits/cat_paw/expr_smile-runtime-5cf8386385fb.webp",
+          "file": "/assets/outfits/cat_paw/expr_smile-runtime-c79a0cdcb26b.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 4,
             "rowStep": 630,
-            "width": 271,
-            "height": 630
+            "width": 399,
+            "height": 630,
+            "padding": 64
           }
         },
         "expr_sad": {
-          "file": "/assets/outfits/cat_paw/expr_sad-runtime-a0e1a85b3d94.webp",
+          "file": "/assets/outfits/cat_paw/expr_sad-runtime-d365a4258c8b.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 0,
             "rowStep": 617,
-            "width": 271,
-            "height": 617
+            "width": 399,
+            "height": 617,
+            "padding": 64
           }
         },
         "expr_angry": {
-          "file": "/assets/outfits/cat_paw/expr_angry-runtime-f14d3d255e3b.webp",
+          "file": "/assets/outfits/cat_paw/expr_angry-runtime-2262a4703a5b.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 9,
             "rowStep": 600,
-            "width": 271,
-            "height": 600
+            "width": 399,
+            "height": 600,
+            "padding": 64
           }
         },
         "expr_sleepy": {
-          "file": "/assets/outfits/cat_paw/expr_sleepy-runtime-55237b7c6400.webp",
+          "file": "/assets/outfits/cat_paw/expr_sleepy-runtime-0af89bb0cb4d.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 16,
             "rowStep": 593,
-            "width": 271,
-            "height": 593
+            "width": 399,
+            "height": 593,
+            "padding": 64
           }
         },
         "read": {
-          "file": "/assets/outfits/cat_paw/read-runtime-36df455da654.webp",
+          "file": "/assets/outfits/cat_paw/read-runtime-6bb6bb7f8006.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 0,
             "rowStep": 671,
-            "width": 271,
-            "height": 671
+            "width": 399,
+            "height": 671,
+            "padding": 64
           }
         },
         "sing": {
-          "file": "/assets/outfits/cat_paw/sing-runtime-bf657d584dac.webp",
+          "file": "/assets/outfits/cat_paw/sing-runtime-02a0a98d60d3.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 16,
             "rowStep": 589,
-            "width": 271,
-            "height": 589
+            "width": 399,
+            "height": 589,
+            "padding": 64
           }
         },
         "eat_rice": {
-          "file": "/assets/outfits/cat_paw/eat_rice-runtime-833cc6138b7b.webp",
+          "file": "/assets/outfits/cat_paw/eat_rice-runtime-bdd27ec4f7d7.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 10,
             "rowStep": 621,
-            "width": 271,
-            "height": 621
+            "width": 399,
+            "height": 621,
+            "padding": 64
           }
         },
         "headpat": {
-          "file": "/assets/outfits/cat_paw/headpat-runtime-146e9577ee56.webp",
+          "file": "/assets/outfits/cat_paw/headpat-runtime-118a8084c990.webp",
           "frames": 8,
           "fps": 4,
           "once": true,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 5,
             "rowStep": 636,
-            "width": 271,
-            "height": 636
+            "width": 399,
+            "height": 636,
+            "padding": 64
           }
         },
         "spin": {
-          "file": "/assets/outfits/cat_paw/spin-runtime-1583f13d5d02.webp",
+          "file": "/assets/outfits/cat_paw/spin-runtime-e367d35bd757.webp",
           "frames": 8,
           "fps": 6,
           "once": true,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 20,
             "rowStep": 611,
-            "width": 271,
-            "height": 611
+            "width": 399,
+            "height": 611,
+            "padding": 64
           }
         }
       },
@@ -948,228 +980,244 @@
       "id": "whale_pajamas",
       "name": "浅蓝鲸鱼睡衣",
       "actions": {
-        "idle": {
-          "file": "/assets/outfits/whale_pajamas/idle-runtime-99de30dbfab7.webp",
+        "eat_rice": {
+          "file": "/assets/outfits/whale_pajamas/eat_rice-runtime-9aa772e628a8.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
-            "offsetY": 22,
-            "rowStep": 558,
-            "width": 271,
-            "height": 558
-          }
-        },
-        "walk_left": {
-          "file": "/assets/outfits/whale_pajamas/walk_left-runtime-ac82126ea38b.webp",
-          "frames": 8,
-          "fps": 8,
-          "once": false,
-          "grid": {
-            "columns": 8,
-            "columnStep": 271.5,
-            "offsetY": 29,
-            "rowStep": 555,
-            "width": 271,
-            "height": 555
-          }
-        },
-        "walk_right": {
-          "file": "/assets/outfits/whale_pajamas/walk_right-runtime-18a4a1a35c61.webp",
-          "frames": 8,
-          "fps": 8,
-          "once": false,
-          "grid": {
-            "columns": 8,
-            "columnStep": 271.5,
-            "offsetY": 53,
-            "rowStep": 571,
-            "width": 271,
-            "height": 571
-          }
-        },
-        "sleep": {
-          "file": "/assets/outfits/whale_pajamas/sleep-runtime-4af5e6f77ce6.webp",
-          "frames": 8,
-          "fps": 4,
-          "once": false,
-          "grid": {
-            "columns": 8,
-            "columnStep": 271.5,
-            "offsetY": 135,
-            "rowStep": 425,
-            "width": 271,
-            "height": 425
-          }
-        },
-        "wake": {
-          "file": "/assets/outfits/whale_pajamas/wake-runtime-c8960b0d2bea.webp",
-          "frames": 8,
-          "fps": 6,
-          "once": false,
-          "grid": {
-            "columns": 8,
-            "columnStep": 271.5,
-            "offsetY": 28,
-            "rowStep": 568,
-            "width": 271,
-            "height": 568
-          }
-        },
-        "tea": {
-          "file": "/assets/outfits/whale_pajamas/tea-runtime-3091d2cd49b7.webp",
-          "frames": 8,
-          "fps": 4,
-          "once": false,
-          "grid": {
-            "columns": 8,
-            "columnStep": 271.5,
-            "offsetY": 34,
-            "rowStep": 553,
-            "width": 271,
-            "height": 553
+            "columnStep": 399,
+            "offsetY": 9,
+            "rowStep": 589,
+            "width": 399,
+            "height": 589,
+            "padding": 64
           }
         },
         "eat_taiyaki": {
-          "file": "/assets/outfits/whale_pajamas/eat_taiyaki-runtime-41267f43807b.webp",
+          "file": "/assets/outfits/whale_pajamas/eat_taiyaki-runtime-107d0098aa38.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 27,
             "rowStep": 578,
-            "width": 271,
-            "height": 578
-          }
-        },
-        "expr_smile": {
-          "file": "/assets/outfits/whale_pajamas/expr_smile-runtime-c063aa4b4e7b.webp",
-          "frames": 8,
-          "fps": 4,
-          "once": false,
-          "grid": {
-            "columns": 8,
-            "columnStep": 271.5,
-            "offsetY": 36,
-            "rowStep": 545,
-            "width": 271,
-            "height": 545
-          }
-        },
-        "expr_sad": {
-          "file": "/assets/outfits/whale_pajamas/expr_sad-runtime-b18b002f47af.webp",
-          "frames": 8,
-          "fps": 4,
-          "once": false,
-          "grid": {
-            "columns": 8,
-            "columnStep": 271.5,
-            "offsetY": 52,
-            "rowStep": 535,
-            "width": 271,
-            "height": 535
+            "width": 399,
+            "height": 578,
+            "padding": 64
           }
         },
         "expr_angry": {
-          "file": "/assets/outfits/whale_pajamas/expr_angry-runtime-b3af2b12dd5d.webp",
+          "file": "/assets/outfits/whale_pajamas/expr_angry-runtime-1056600bab21.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 56,
             "rowStep": 530,
-            "width": 271,
-            "height": 530
+            "width": 399,
+            "height": 530,
+            "padding": 64
+          }
+        },
+        "expr_sad": {
+          "file": "/assets/outfits/whale_pajamas/expr_sad-runtime-ad38792ea9f0.webp",
+          "frames": 8,
+          "fps": 4,
+          "once": false,
+          "grid": {
+            "columns": 8,
+            "columnStep": 399,
+            "offsetY": 52,
+            "rowStep": 535,
+            "width": 399,
+            "height": 535,
+            "padding": 64
           }
         },
         "expr_sleepy": {
-          "file": "/assets/outfits/whale_pajamas/expr_sleepy-runtime-d2bb9b0cb405.webp",
+          "file": "/assets/outfits/whale_pajamas/expr_sleepy-runtime-affafed06fe0.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 31,
             "rowStep": 559,
-            "width": 271,
-            "height": 559
+            "width": 399,
+            "height": 559,
+            "padding": 64
           }
         },
-        "read": {
-          "file": "/assets/outfits/whale_pajamas/read-runtime-e7b2a8590cfc.webp",
+        "expr_smile": {
+          "file": "/assets/outfits/whale_pajamas/expr_smile-runtime-c6eb8668f087.webp",
           "frames": 8,
           "fps": 4,
           "once": false,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
-            "offsetY": 35,
-            "rowStep": 584,
-            "width": 271,
-            "height": 584
-          }
-        },
-        "sing": {
-          "file": "/assets/outfits/whale_pajamas/sing-runtime-02c82705a800.webp",
-          "frames": 8,
-          "fps": 4,
-          "once": false,
-          "grid": {
-            "columns": 8,
-            "columnStep": 271.5,
-            "offsetY": 28,
-            "rowStep": 558,
-            "width": 271,
-            "height": 558
-          }
-        },
-        "eat_rice": {
-          "file": "/assets/outfits/whale_pajamas/eat_rice-runtime-18d4cd80bf80.webp",
-          "frames": 8,
-          "fps": 4,
-          "once": false,
-          "grid": {
-            "columns": 8,
-            "columnStep": 271.5,
-            "offsetY": 9,
-            "rowStep": 589,
-            "width": 271,
-            "height": 589
+            "columnStep": 399,
+            "offsetY": 36,
+            "rowStep": 545,
+            "width": 399,
+            "height": 545,
+            "padding": 64
           }
         },
         "headpat": {
-          "file": "/assets/outfits/whale_pajamas/headpat-runtime-e3ac90afc863.webp",
+          "file": "/assets/outfits/whale_pajamas/headpat-runtime-1d8c355c01c8.webp",
           "frames": 8,
           "fps": 4,
           "once": true,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 60,
             "rowStep": 530,
-            "width": 271,
-            "height": 530
+            "width": 399,
+            "height": 530,
+            "padding": 64
+          }
+        },
+        "idle": {
+          "file": "/assets/outfits/whale_pajamas/idle-runtime-020d7381f835.webp",
+          "frames": 8,
+          "fps": 4,
+          "once": false,
+          "grid": {
+            "columns": 8,
+            "columnStep": 399,
+            "offsetY": 22,
+            "rowStep": 558,
+            "width": 399,
+            "height": 558,
+            "padding": 64
+          }
+        },
+        "read": {
+          "file": "/assets/outfits/whale_pajamas/read-runtime-9590e5c2c69e.webp",
+          "frames": 8,
+          "fps": 4,
+          "once": false,
+          "grid": {
+            "columns": 8,
+            "columnStep": 399,
+            "offsetY": 35,
+            "rowStep": 584,
+            "width": 399,
+            "height": 584,
+            "padding": 64
+          }
+        },
+        "sing": {
+          "file": "/assets/outfits/whale_pajamas/sing-runtime-a516135e98a5.webp",
+          "frames": 8,
+          "fps": 4,
+          "once": false,
+          "grid": {
+            "columns": 8,
+            "columnStep": 399,
+            "offsetY": 28,
+            "rowStep": 558,
+            "width": 399,
+            "height": 558,
+            "padding": 64
+          }
+        },
+        "sleep": {
+          "file": "/assets/outfits/whale_pajamas/sleep-runtime-709f63b394c3.webp",
+          "frames": 8,
+          "fps": 4,
+          "once": false,
+          "grid": {
+            "columns": 8,
+            "columnStep": 399,
+            "offsetY": 135,
+            "rowStep": 425,
+            "width": 399,
+            "height": 425,
+            "padding": 64
           }
         },
         "spin": {
-          "file": "/assets/outfits/whale_pajamas/spin-runtime-0a99d1042309.webp",
+          "file": "/assets/outfits/whale_pajamas/spin-runtime-af5e2915c565.webp",
           "frames": 8,
           "fps": 6,
           "once": true,
           "grid": {
             "columns": 8,
-            "columnStep": 271.5,
+            "columnStep": 399,
             "offsetY": 62,
             "rowStep": 533,
-            "width": 271,
-            "height": 533
+            "width": 399,
+            "height": 533,
+            "padding": 64
+          }
+        },
+        "tea": {
+          "file": "/assets/outfits/whale_pajamas/tea-runtime-8807bdbd9c2b.webp",
+          "frames": 8,
+          "fps": 4,
+          "once": false,
+          "grid": {
+            "columns": 8,
+            "columnStep": 399,
+            "offsetY": 34,
+            "rowStep": 553,
+            "width": 399,
+            "height": 553,
+            "padding": 64
+          }
+        },
+        "wake": {
+          "file": "/assets/outfits/whale_pajamas/wake-runtime-d4c3d2b86e45.webp",
+          "frames": 8,
+          "fps": 6,
+          "once": false,
+          "grid": {
+            "columns": 8,
+            "columnStep": 399,
+            "offsetY": 28,
+            "rowStep": 568,
+            "width": 399,
+            "height": 568,
+            "padding": 64
+          }
+        },
+        "walk_left": {
+          "file": "/assets/outfits/whale_pajamas/walk_left-runtime-71fb024964c6.webp",
+          "frames": 8,
+          "fps": 8,
+          "once": false,
+          "grid": {
+            "columns": 8,
+            "columnStep": 399,
+            "offsetY": 29,
+            "rowStep": 555,
+            "width": 399,
+            "height": 555,
+            "padding": 64
+          }
+        },
+        "walk_right": {
+          "file": "/assets/outfits/whale_pajamas/walk_right-runtime-f1717f5a6e69.webp",
+          "frames": 8,
+          "fps": 8,
+          "once": false,
+          "grid": {
+            "columns": 8,
+            "columnStep": 399,
+            "offsetY": 53,
+            "rowStep": 571,
+            "width": 399,
+            "height": 571,
+            "padding": 64
           }
         }
       },

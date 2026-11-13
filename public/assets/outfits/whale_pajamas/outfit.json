@@ -5,227 +5,243 @@
   "photoDescription": "pale powder-blue button-up pajama shirt with white piping and small whale chest pocket motif, matching loose full-length whale print trousers, cream plush whale slippers and blue bow hair clip; no hood or hat",
   "actions": {
     "eat_rice": {
-      "file": "eat_rice-runtime-18d4cd80bf80.webp",
+      "file": "eat_rice-runtime-9aa772e628a8.webp",
       "frames": 8,
       "fps": 4,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 9,
         "rowStep": 589,
-        "width": 271,
-        "height": 589
+        "width": 399,
+        "height": 589,
+        "padding": 64
       }
     },
     "eat_taiyaki": {
-      "file": "eat_taiyaki-runtime-41267f43807b.webp",
+      "file": "eat_taiyaki-runtime-107d0098aa38.webp",
       "frames": 8,
       "fps": 4,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 27,
         "rowStep": 578,
-        "width": 271,
-        "height": 578
+        "width": 399,
+        "height": 578,
+        "padding": 64
       }
     },
     "expr_angry": {
-      "file": "expr_angry-runtime-b3af2b12dd5d.webp",
+      "file": "expr_angry-runtime-1056600bab21.webp",
       "frames": 8,
       "fps": 4,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 56,
         "rowStep": 530,
-        "width": 271,
-        "height": 530
+        "width": 399,
+        "height": 530,
+        "padding": 64
       }
     },
     "expr_sad": {
-      "file": "expr_sad-runtime-b18b002f47af.webp",
+      "file": "expr_sad-runtime-ad38792ea9f0.webp",
       "frames": 8,
       "fps": 4,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 52,
         "rowStep": 535,
-        "width": 271,
-        "height": 535
+        "width": 399,
+        "height": 535,
+        "padding": 64
       }
     },
     "expr_sleepy": {
-      "file": "expr_sleepy-runtime-d2bb9b0cb405.webp",
+      "file": "expr_sleepy-runtime-affafed06fe0.webp",
       "frames": 8,
       "fps": 4,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 31,
         "rowStep": 559,
-        "width": 271,
-        "height": 559
+        "width": 399,
+        "height": 559,
+        "padding": 64
       }
     },
     "expr_smile": {
-      "file": "expr_smile-runtime-c063aa4b4e7b.webp",
+      "file": "expr_smile-runtime-c6eb8668f087.webp",
       "frames": 8,
       "fps": 4,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 36,
         "rowStep": 545,
-        "width": 271,
-        "height": 545
+        "width": 399,
+        "height": 545,
+        "padding": 64
       }
     },
     "headpat": {
-      "file": "headpat-runtime-e3ac90afc863.webp",
+      "file": "headpat-runtime-1d8c355c01c8.webp",
       "frames": 8,
       "fps": 4,
       "once": true,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 60,
         "rowStep": 530,
-        "width": 271,
-        "height": 530
+        "width": 399,
+        "height": 530,
+        "padding": 64
       }
     },
     "idle": {
-      "file": "idle-runtime-99de30dbfab7.webp",
+      "file": "idle-runtime-020d7381f835.webp",
       "frames": 8,
       "fps": 4,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 22,
         "rowStep": 558,
-        "width": 271,
-        "height": 558
+        "width": 399,
+        "height": 558,
+        "padding": 64
       }
     },
     "read": {
-      "file": "read-runtime-e7b2a8590cfc.webp",
+      "file": "read-runtime-9590e5c2c69e.webp",
       "frames": 8,
       "fps": 4,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 35,
         "rowStep": 584,
-        "width": 271,
-        "height": 584
+        "width": 399,
+        "height": 584,
+        "padding": 64
       }
     },
     "sing": {
-      "file": "sing-runtime-02c82705a800.webp",
+      "file": "sing-runtime-a516135e98a5.webp",
       "frames": 8,
       "fps": 4,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 28,
         "rowStep": 558,
-        "width": 271,
-        "height": 558
+        "width": 399,
+        "height": 558,
+        "padding": 64
       }
     },
     "sleep": {
-      "file": "sleep-runtime-4af5e6f77ce6.webp",
+      "file": "sleep-runtime-709f63b394c3.webp",
       "frames": 8,
       "fps": 4,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 135,
         "rowStep": 425,
-        "width": 271,
-        "height": 425
+        "width": 399,
+        "height": 425,
+        "padding": 64
       }
     },
     "spin": {
-      "file": "spin-runtime-0a99d1042309.webp",
+      "file": "spin-runtime-af5e2915c565.webp",
       "frames": 8,
       "fps": 6,
       "once": true,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 62,
         "rowStep": 533,
-        "width": 271,
-        "height": 533
+        "width": 399,
+        "height": 533,
+        "padding": 64
       }
     },
     "tea": {
-      "file": "tea-runtime-3091d2cd49b7.webp",
+      "file": "tea-runtime-8807bdbd9c2b.webp",
       "frames": 8,
       "fps": 4,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 34,
         "rowStep": 553,
-        "width": 271,
-        "height": 553
+        "width": 399,
+        "height": 553,
+        "padding": 64
       }
     },
     "wake": {
-      "file": "wake-runtime-c8960b0d2bea.webp",
+      "file": "wake-runtime-d4c3d2b86e45.webp",
       "frames": 8,
       "fps": 6,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 28,
         "rowStep": 568,
-        "width": 271,
-        "height": 568
+        "width": 399,
+        "height": 568,
+        "padding": 64
       }
     },
     "walk_left": {
-      "file": "walk_left-runtime-ac82126ea38b.webp",
+      "file": "walk_left-runtime-71fb024964c6.webp",
       "frames": 8,
       "fps": 8,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 29,
         "rowStep": 555,
-        "width": 271,
-        "height": 555
+        "width": 399,
+        "height": 555,
+        "padding": 64
       }
     },
     "walk_right": {
-      "file": "walk_right-runtime-18a4a1a35c61.webp",
+      "file": "walk_right-runtime-f1717f5a6e69.webp",
       "frames": 8,
       "fps": 8,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 53,
         "rowStep": 571,
-        "width": 271,
-        "height": 571
+        "width": 399,
+        "height": 571,
+        "padding": 64
       }
     }
   },

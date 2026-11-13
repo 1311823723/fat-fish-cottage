@@ -6,227 +6,243 @@
   "photoReference": "reference.png",
   "actions": {
     "idle": {
-      "file": "idle-runtime-50aa6dc3222b.webp",
+      "file": "idle-runtime-9b3502aca3c0.webp",
       "frames": 8,
       "fps": 4,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 23,
         "rowStep": 580,
-        "width": 271,
-        "height": 580
+        "width": 399,
+        "height": 580,
+        "padding": 64
       }
     },
     "walk_left": {
-      "file": "walk_left-runtime-f020aff160f5.webp",
+      "file": "walk_left-runtime-57c2af729720.webp",
       "frames": 8,
       "fps": 8,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 25,
         "rowStep": 617,
-        "width": 271,
-        "height": 617
+        "width": 399,
+        "height": 617,
+        "padding": 64
       }
     },
     "walk_right": {
-      "file": "walk_right-runtime-6bf57416f3e6.webp",
+      "file": "walk_right-runtime-47cfa4ff3e7a.webp",
       "frames": 8,
       "fps": 8,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 25,
         "rowStep": 615,
-        "width": 271,
-        "height": 615
+        "width": 399,
+        "height": 615,
+        "padding": 64
       }
     },
     "sleep": {
-      "file": "sleep-runtime-5ea94e46f2c1.webp",
+      "file": "sleep-runtime-f707afbef2ad.webp",
       "frames": 8,
       "fps": 4,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 177,
         "rowStep": 383,
-        "width": 271,
-        "height": 383
+        "width": 399,
+        "height": 383,
+        "padding": 64
       }
     },
     "wake": {
-      "file": "wake-runtime-d866011ccbed.webp",
+      "file": "wake-runtime-e8d74cc417d2.webp",
       "frames": 8,
       "fps": 6,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 39,
         "rowStep": 587,
-        "width": 271,
-        "height": 587
+        "width": 399,
+        "height": 587,
+        "padding": 64
       }
     },
     "tea": {
-      "file": "tea-runtime-18d8693b677d.webp",
+      "file": "tea-runtime-832217e6e8cd.webp",
       "frames": 8,
       "fps": 4,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 0,
         "rowStep": 665,
-        "width": 271,
-        "height": 665
+        "width": 399,
+        "height": 665,
+        "padding": 64
       }
     },
     "eat_taiyaki": {
-      "file": "eat_taiyaki-runtime-daa46b9a50e1.webp",
+      "file": "eat_taiyaki-runtime-4e0cacd7c445.webp",
       "frames": 8,
       "fps": 4,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 0,
         "rowStep": 665,
-        "width": 271,
-        "height": 665
+        "width": 399,
+        "height": 665,
+        "padding": 64
       }
     },
     "expr_smile": {
-      "file": "expr_smile-runtime-5cf8386385fb.webp",
+      "file": "expr_smile-runtime-c79a0cdcb26b.webp",
       "frames": 8,
       "fps": 4,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 4,
         "rowStep": 630,
-        "width": 271,
-        "height": 630
+        "width": 399,
+        "height": 630,
+        "padding": 64
       }
     },
     "expr_sad": {
-      "file": "expr_sad-runtime-a0e1a85b3d94.webp",
+      "file": "expr_sad-runtime-d365a4258c8b.webp",
       "frames": 8,
       "fps": 4,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 0,
         "rowStep": 617,
-        "width": 271,
-        "height": 617
+        "width": 399,
+        "height": 617,
+        "padding": 64
       }
     },
     "expr_angry": {
-      "file": "expr_angry-runtime-f14d3d255e3b.webp",
+      "file": "expr_angry-runtime-2262a4703a5b.webp",
       "frames": 8,
       "fps": 4,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 9,
         "rowStep": 600,
-        "width": 271,
-        "height": 600
+        "width": 399,
+        "height": 600,
+        "padding": 64
       }
     },
     "expr_sleepy": {
-      "file": "expr_sleepy-runtime-55237b7c6400.webp",
+      "file": "expr_sleepy-runtime-0af89bb0cb4d.webp",
       "frames": 8,
       "fps": 4,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 16,
         "rowStep": 593,
-        "width": 271,
-        "height": 593
+        "width": 399,
+        "height": 593,
+        "padding": 64
       }
     },
     "read": {
-      "file": "read-runtime-36df455da654.webp",
+      "file": "read-runtime-6bb6bb7f8006.webp",
       "frames": 8,
       "fps": 4,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 0,
         "rowStep": 671,
-        "width": 271,
-        "height": 671
+        "width": 399,
+        "height": 671,
+        "padding": 64
       }
     },
     "sing": {
-      "file": "sing-runtime-bf657d584dac.webp",
+      "file": "sing-runtime-02a0a98d60d3.webp",
       "frames": 8,
       "fps": 4,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 16,
         "rowStep": 589,
-        "width": 271,
-        "height": 589
+        "width": 399,
+        "height": 589,
+        "padding": 64
       }
     },
     "eat_rice": {
-      "file": "eat_rice-runtime-833cc6138b7b.webp",
+      "file": "eat_rice-runtime-bdd27ec4f7d7.webp",
       "frames": 8,
       "fps": 4,
       "once": false,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 10,
         "rowStep": 621,
-        "width": 271,
-        "height": 621
+        "width": 399,
+        "height": 621,
+        "padding": 64
       }
     },
     "headpat": {
-      "file": "headpat-runtime-146e9577ee56.webp",
+      "file": "headpat-runtime-118a8084c990.webp",
       "frames": 8,
       "fps": 4,
       "once": true,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 5,
         "rowStep": 636,
-        "width": 271,
-        "height": 636
+        "width": 399,
+        "height": 636,
+        "padding": 64
       }
     },
     "spin": {
-      "file": "spin-runtime-1583f13d5d02.webp",
+      "file": "spin-runtime-e367d35bd757.webp",
       "frames": 8,
       "fps": 6,
       "once": true,
       "grid": {
         "columns": 8,
-        "columnStep": 271.5,
+        "columnStep": 399,
         "offsetY": 20,
         "rowStep": 611,
-        "width": 271,
-        "height": 611
+        "width": 399,
+        "height": 611,
+        "padding": 64
       }
     }
   },

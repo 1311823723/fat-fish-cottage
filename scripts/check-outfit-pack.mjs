@@ -33,18 +33,29 @@ export async function checkOutfitPack(directory) {
       const full=path.join(dir,file), stat=await fs.lstat(full);
       if(!stat.isFile()||stat.isSymbolicLink()){errors.push(`${action}: 文件必须是素材包内的普通文件`);continue;}
       const image=await sharp(full,{limitInputPixels:256*256*60}).metadata();
+      const areas=[];
       if(grid){
         const {columns,columnStep,offsetY,rowStep,width,height}=grid;
         const valid=Number.isInteger(columns)&&columns>=1&&columns<=16&&Number.isFinite(columnStep)&&columnStep>=1&&Number.isInteger(offsetY)&&offsetY>=0&&Number.isInteger(rowStep)&&rowStep>=1&&Number.isInteger(width)&&width>=32&&width<=512&&Number.isInteger(height)&&height>=32&&height<=1024;
         if(!valid||Math.floor((columns-1)*columnStep)+width>image.width||offsetY+Math.floor((frames-1)/columns)*rowStep+height>image.height) errors.push(`${action}: grid 区域超出图片或参数无效`);
+        else for(let frame=0;frame<frames;frame++)areas.push({left:Math.floor(frame%columns*columnStep),top:offsetY+Math.floor(frame/columns)*rowStep,width,height});
       } else {
         const columns=Math.min(8,frames), rows=Math.ceil(frames/columns);
         if(![256*columns,2048].includes(image.width)||image.height!==256*rows) errors.push(`${action}: 应为 ${256*columns} 或 2048 像素宽，${256*rows} 像素高（每行最多8帧）`);
+        else for(let frame=0;frame<frames;frame++)areas.push({left:frame%columns*256,top:Math.floor(frame/columns)*256,width:256,height:256});
       }
       if(!image.hasAlpha) errors.push(`${action}: 图片需要透明通道`);
       else for(const [left,top] of [[0,0],[image.width-1,0],[0,image.height-1],[image.width-1,image.height-1]]){
         const alpha=await sharp(full).extract({left,top,width:1,height:1}).extractChannel('alpha').raw().toBuffer();
         if(alpha[0]>8){errors.push(`${action}: 角落不是透明背景`);break;}
+      }
+      if(image.hasAlpha&&areas.length){
+        const alpha=await sharp(full).extractChannel('alpha').raw().toBuffer();
+        const unsafe=areas.findIndex(area=>{
+          for(let y=area.top;y<area.top+area.height;y++)for(const x of [area.left,area.left+1,area.left+area.width-2,area.left+area.width-1])if(alpha[y*image.width+x]>16)return true;
+          return false;
+        });
+        if(unsafe>=0)errors.push(`${action}: 第 ${unsafe+1} 帧左右边缘有可见像素，可能串帧；请逐帧隔离并保留透明边距`);
       }
     }catch{errors.push(`${action}: 不能读取图片 ${file}`)}
   }
