@@ -1,3 +1,4 @@
+import {mountTrip} from './trip';
 import {mountWardrobe} from './wardrobe';
 import { openDiary } from "./diary";
 import { createArcadeUI } from "./arcade";
@@ -60,9 +61,10 @@ function element<K extends keyof HTMLElementTagNameMap>(
   return e;
 }
 let wardrobeView:ReturnType<typeof mountWardrobe>|null=null;
+let tripView:ReturnType<typeof mountTrip>|null=null;
 function open(title: string) {
-  wardrobeView?.dispose();wardrobeView=null;
-  panel.classList.remove("diary-mode", "arcade-mode", "board-mode", "menu-mode", "wardrobe-mode");
+  wardrobeView?.dispose();wardrobeView=null;tripView?.dispose();tripView=null;
+  panel.classList.remove("diary-mode", "arcade-mode", "board-mode", "menu-mode", "wardrobe-mode", "trip-mode");
   generation++;
   $("panelTitle").textContent = title;
   body.replaceChildren();
@@ -70,7 +72,7 @@ function open(title: string) {
   return generation;
 }
 $("closePanel").onclick = () => panel.close();
-panel.addEventListener("close", () => {if(panel.open)return;generation++;wardrobeView?.dispose();wardrobeView=null;});
+panel.addEventListener("close", () => {if(panel.open)return;generation++;wardrobeView?.dispose();wardrobeView=null;tripView?.dispose();tripView=null;});
 const panelClickGuard=createPanelClickGuard();
 const panelControl=(target:EventTarget|null)=>target instanceof Element?target.closest('button,a,input,select,textarea,summary,[role="button"]'):null;
 document.addEventListener('pointerdown',event=>{
@@ -102,7 +104,7 @@ function render(w: World) {
   if (world && w.revision < world.revision) return;
   world = w;
   room.sync(w);
-  wardrobeView?.refresh();
+  wardrobeView?.refresh();tripView?.refresh(w);
   warmWardrobePreviews();
   if (w.identity) identity = w.identity;
   for (const key of ["hunger", "energy", "mood"]) {
@@ -171,7 +173,7 @@ async function command(type: string, args: any, button?: HTMLButtonElement) {
   const payload = JSON.stringify({ type, args }),
     old = button && pending.get(button);
   const id = old?.payload === payload ? old.id : newRequestId();
-  if(['activity','pet_interact','outfit_set'].includes(type))room.stopArrival();
+  if(['activity','pet_interact','outfit_set'].includes(type)){room.stopArrival();room.stopDeparture();}
   if (button) {
     pending.set(button, { id, payload });
     button.disabled = true;
@@ -241,8 +243,12 @@ game.events.on('arrival-start',(event:any)=>{
   $('arrivalCard').hidden=false;arrivalTimer=setTimeout(hideArrival,room.reducedMotion?3000:6500);
 });
 game.events.on('arrival-end',hideArrival);
-$('skipArrival').onclick=()=>{room.stopArrival();hideArrival();};
-document.addEventListener('visibilitychange',()=>{if(document.hidden){room.stopArrival();hideArrival();}});
+game.events.on('departure-start',(event:any)=>{
+ clearTimeout(arrivalTimer);$('arrivalTitle').textContent='肥鱼出门啦';$('arrivalDetail').textContent=`拿上背包，去${event.place}走走。`;$('arrivalCard').hidden=false;arrivalTimer=setTimeout(hideArrival,room.reducedMotion?3000:5700);
+});
+game.events.on('departure-end',()=>{hideArrival();delete $('game').dataset.departure;});
+$('skipArrival').onclick=()=>{room.stopArrival();room.stopDeparture();hideArrival();};
+document.addEventListener('visibilitychange',()=>{if(document.hidden){room.stopArrival();room.stopDeparture();hideArrival();}});
 const arcadeUI = createArcadeUI({
   panel,
   body,
@@ -516,6 +522,10 @@ noteButton.onclick = () => {
   );
   body.append(paper);
 };
+function openTrip(id:string){
+  const g=open('这趟旅行');panel.classList.add('trip-mode');
+  tripView=mountTrip({body,id,api,active:()=>g===generation&&panel.open,back:()=>{$('album').click();requestAnimationFrame(()=>[...body.querySelectorAll<HTMLButtonElement>('[data-photo-id]')].find(button=>button.dataset.photoId===id)?.scrollIntoView({block:'nearest'}));}});
+}
 $("album").onclick = () => {
   open("旅行相册");
   if (world?.drawing?.verificationRequired)
@@ -546,6 +556,10 @@ $("album").onclick = () => {
         "subtle",
       ),
     );
+  const recentTrip=world?.travel.phase==='away'?world.travel.tripId:world?.travel.lastReturn?.tripId;
+  if(recentTrip&&!world.photos.some((photo:any)=>photo.photoId===recentTrip)){
+    const recent=element('button',world.travel.phase==='away'?'看看正在进行的旅行':'看看刚回来的旅行','trip-recent');recent.onclick=()=>openTrip(recentTrip);body.append(recent);
+  }
   if (!world?.photos.length) {
     body.append(element("p", "还没有旅行照片。"));
     return;
@@ -563,27 +577,8 @@ $("album").onclick = () => {
     img.alt = p.place;
     img.loading = "lazy";
     b.append(img, element("small", p.place));
-    b.onclick = () => {
-      open(p.place);
-      const large = element("img", "", "photo-large");
-      large.src =
-        "/room-photo/" +
-        p.photoId +
-        "?v=" +
-        encodeURIComponent(p.assetVersion || "original");
-      large.alt = p.place;
-      body.append(
-        large,
-        element(
-          "p",
-          new Date(p.capturedAt).toLocaleString("zh-CN", {
-            timeZone: "Asia/Shanghai",
-          }),
-          "subtle",
-        ),
-        element("p", p.caption || ""),
-      );
-    };
+    b.dataset.photoId=p.photoId;
+    b.onclick=()=>openTrip(p.photoId);
     grid.append(b);
   }
 };

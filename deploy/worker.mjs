@@ -1,5 +1,6 @@
 const api = new Set([
   "/api/room-state",
+  "/api/room-trip",
   "/api/room-enter",
   "/api/room-identity",
   "/api/room-challenge",

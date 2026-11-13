@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import {spriteScale} from './sprite-scale.mjs';
 import {arrivalCandidate,arrivalPose,ArrivalEvent} from './arrival.mjs';
+import {departureCandidate,departurePose,DepartureEvent} from './departure.mjs';
 import outfitCatalog from "../../public/assets/outfits-v1.json";
 import roomRuntime from '../../public/assets/room-runtime.json';
 import roomLayout from '../../public/assets/room-layout-v6.json';
@@ -39,6 +40,7 @@ export class Room extends Phaser.Scene {
   loading = new Set<string>();
   failedAnimations = new Set<string>();
   arrival: {event:ArrivalEvent;started:number}|null=null;
+  departure: {event:DepartureEvent;started:number;origin:{x:number;y:number}}|null=null;
   arrivalBag!:Phaser.GameObjects.Image;
   lastWarmedOutfit = '';
   tapLoading = false;
@@ -367,6 +369,8 @@ export class Room extends Phaser.Scene {
   sync(w: World) {
     if (this.world && w.revision < this.world.revision) return;
     const arrival=arrivalCandidate(this.world,w,w.serverTime);
+    const departure=departureCandidate(this.world,w,w.serverTime);
+    if(this.departure&&(w.travel.phase!=='away'||w.travel.tripId!==this.departure.event.tripId))this.stopDeparture();
     if(this.arrival&&(w.travel.phase==='away'||(w.activity.manual&&w.activity.startedAt>=this.arrival.event.at)))this.stopArrival();
     this.curtainTarget = w.furnishings.curtainClosed ? 1 : 0;
     if (!this.furnishingsInitialized) {
@@ -375,6 +379,10 @@ export class Room extends Phaser.Scene {
     }
     this.world = w;
     this.offset = w.serverTime - Date.now();
+    if(departure&&this.pet&&!document.hidden){
+      if(!this.reducedMotion){this.departure={event:departure,started:performance.now(),origin:{x:this.x,y:this.y}};for(const name of ['idle','walk_left','walk_right']){const key=`${w.wardrobe?.outfit}--${name}`;this.ensureAnim(this.manifest[key]?key:name);}}
+      this.game.events.emit('departure-start',departure);
+    }
     if(arrival&&this.pet&&!document.hidden){
       if(!this.reducedMotion){this.arrival={event:arrival,started:performance.now()};this.x=55;this.y=745;for(const name of ['walk_left','walk_right']){const dressed=`${w.wardrobe?.outfit}--${name}`;this.ensureAnim(this.manifest[dressed]?dressed:name);}}
       this.game.events.emit('arrival-start',arrival);
@@ -394,6 +402,10 @@ export class Room extends Phaser.Scene {
   stopArrival(){
     this.arrival=null;this.arrivalBag?.setVisible(false);this.backpackObject?.setVisible(this.world?.travel.phase!=='away');
     if(this.game)this.game.events.emit('arrival-end');
+  }
+  stopDeparture(){
+    this.departure=null;this.arrivalBag?.setVisible(false);this.backpackObject?.setVisible(this.world?.travel.phase!=='away');this.notePaper?.setVisible(this.world?.travel.phase==='away');
+    if(this.game)this.game.events.emit('departure-end');
   }
   async prepareOutfit(outfit: string, progress:(value:number)=>void=()=>{}, signal?:AbortSignal) {
     const activity=this.world?.activity?.name;
@@ -643,7 +655,7 @@ export class Room extends Phaser.Scene {
         }, [])
         .join("\n"),
     );
-    this.notePaper.setVisible(w.travel.phase === "away");
+    this.notePaper.setVisible(w.travel.phase === "away"&&!this.departure);
   }
   updateFurniturePresentation() {
     if (!this.world || !this.door || !this.dark) return;
@@ -760,9 +772,12 @@ export class Room extends Phaser.Scene {
     this.animateFurniture(delta);
     const w = this.world,
       away = w.travel.phase === "away";
-    this.pet.setVisible(!away);
-    this.shadow.setVisible(!away);
-    if (away) return;
+    const bag=this.layout.objects.find((object:any)=>object.id==='backpack').standPoint;
+    const leaving=this.departure?departurePose(performance.now()-this.departure.started,this.departure.origin,bag,{x:-80,y:745}):null;
+    if(this.departure&&!leaving)this.stopDeparture();
+    this.pet.setVisible(!away||!!leaving);
+    this.shadow.setVisible(!away||!!leaving);
+    if (away&&!leaving) return;
     const a = w.activity;
     let name = "idle",
       tx = this.layout.idle.x,
@@ -818,6 +833,12 @@ export class Room extends Phaser.Scene {
       ).standPoint;
       tx = point.x;
       ty = point.y;
+    }
+    if(leaving){
+      name=leaving.action;tx=leaving.x;ty=leaving.y;
+      this.backpackObject.setVisible(!leaving.carrying);this.notePaper.setVisible(leaving.note);
+      this.arrivalBag.setVisible(leaving.carrying).setPosition(this.x+35,this.y-40);
+      document.getElementById('game')!.dataset.departure=leaving.phase;
     }
     if(this.arrival){
       const desk=this.layout.objects.find((object:any)=>object.id==='desk').standPoint;

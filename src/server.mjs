@@ -12,6 +12,7 @@ import { safeDrawingFailure } from "./drawing.mjs";
 import { LeaveMessages } from "./core/leave-messages.mjs";
 import { Visits } from "./core/visits.mjs";
 import { PublicBoard } from "./core/public-board.mjs";
+import {tripDetails} from './core/trip-details.mjs';
 export function makeServer(c = config(), { store, fetcher = fetch, photoDirectory = path.join(ROOT, 'state/photos') } = {}) {
   fs.mkdirSync(path.join(ROOT, "state"), { recursive: true });
   store ??= new Store(path.resolve(ROOT, c.database || "state/world.db"));
@@ -259,6 +260,10 @@ export function makeServer(c = config(), { store, fetcher = fetch, photoDirector
         }
         const body = JSON.parse(raw || "{}");
         const route = url.pathname.slice("/api/room-".length);
+        if(route==='trip'){
+          store.snapshot();const detail=tripDetails(store.raw(),String(body.id||''));
+          json(detail?{ok:true,trip:detail}:{ok:false,error:'找不到这趟旅行记录'},detail?200:404);return;
+        }
         if (route === 'board') {
           const a=await actor(req);
           if(body.op==='list'){json({ok:true,...board.list(a,String(body.before||''))});return;}
