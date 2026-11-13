@@ -18,6 +18,9 @@ const el = <K extends keyof HTMLElementTagNameMap>(
 };
 export function createArcadeUI({ panel, body, open, api, enter }: Options) {
   // Fetch the small state sprites before the first move so cold networks cannot hide a piece.
+  let warmed=false;
+  function warmImages(){
+  if(warmed)return;warmed=true;
   for (const file of [
     "ui-disc-coral-v1.webp",
     "ui-disc-blue-v1.webp",
@@ -26,6 +29,7 @@ export function createArcadeUI({ panel, body, open, api, enter }: Options) {
   ]) {
     const preload = new Image();
     preload.src = "/assets/" + file;
+  }
   }
   let surface: HTMLElement = body;
   const image = (name: string, cls = "") => {
@@ -607,6 +611,7 @@ export function createArcadeUI({ panel, body, open, api, enter }: Options) {
   return {
     open() {
       if (!enter()) return;
+      warmImages();
       shared = true;
       difficulty = "normal";
       epoch++;

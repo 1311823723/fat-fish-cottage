@@ -87,11 +87,20 @@ document.addEventListener('click',event=>{
   }else if(event.detail>0)panelClickGuard.cancel();
 },true);
 async function api(route: string, args: any = {}) {
+  const boot=(window as any).__cottageBoot;
+  if(route==='state'&&boot&&!boot.used){
+    boot.used=true;
+    const first=await boot.promise;
+    boot.stop();
+    if(first&&Date.now()-boot.receivedAt<15000)return first;
+  }
+  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),route==='chat'?105000:16000);
+  try {
   const r = await fetch("/api/room-" + route, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(args),
-    signal: AbortSignal.timeout(route === "chat" ? 105000 : 16000),
+    signal: controller.signal,
   });
   let v;
   try {
@@ -101,6 +110,7 @@ async function api(route: string, args: any = {}) {
   }
   if (!r.ok || !v.ok) throw Error(v.error || "连接暂时断开");
   return v;
+  } finally {clearTimeout(timeout);}
 }
 function render(w: World) {
   if (world && w.revision < world.revision) return;
@@ -157,12 +167,15 @@ async function sync() {
       if (!world.entered) void identityPanel();
     }
     $("connection").textContent = ws?.readyState === 1 ? "已同步" : "定时同步";
+    $("retryConnection").hidden=true;
   } catch {
-    $("connection").textContent = "连接中断 · 正在重连";
+    $("connection").textContent = "状态同步失败 · 正在重试";
+    $("retryConnection").hidden=false;
   } finally {
     syncing = false;
   }
 }
+$('retryConnection').onclick=()=>void sync();
 const pending = new WeakMap<
   HTMLButtonElement,
   { id: string; payload: string }
@@ -233,6 +246,7 @@ const game = new Phaser.Game({
   backgroundColor: "#eaddc9",
   scene: room,
   input: { touch: { capture: false } },
+  loader: { timeout: 20000, maxRetries: 2 },
   scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
   fps: { target: 60, limit: power ? 30 : 60, forceSetTimeOut: false },
   render: { antialias: true, pixelArt: false },
