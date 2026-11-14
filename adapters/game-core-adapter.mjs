@@ -2,6 +2,27 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 const visitTime = (at) => new Date(at).toLocaleString("zh-CN", {timeZone:"Asia/Shanghai",hour12:false});
+export function travelDecisionContext(w, now=Date.now()) {
+  const trips=[w.travel.current,...w.travel.pending,...w.travel.history].filter(Boolean);
+  const seen=new Set();
+  const uniqueTrips=trips.filter(t=>{if(!t.id)return true;if(seen.has(t.id))return false;seen.add(t.id);return true;});
+  const recentTrips=uniqueTrips
+    .sort((a,b)=>(b.departedAt||0)-(a.departedAt||0)).slice(0,14)
+    .map(t=>({place:t.place?.label||t.place,departedAt:t.departedAt,beijingTime:visitTime(t.departedAt),
+      returnedAt:t.returnedAt||null,wish:t.intent?.wish||''}));
+  const day=at=>new Date(at+28800000).toISOString().slice(0,10);
+  const counts=new Map();
+  for(const t of uniqueTrips){
+    if(!Number.isFinite(t.departedAt)||t.departedAt>now||now-t.departedAt>7*86400000)continue;
+    const place=String(t.place?.label||t.place||''),key=place.normalize('NFKC').replace(/[\s·・，,。]/g,'');
+    const row=counts.get(key)||{place,today:0,last7Days:0,lastDepartedAt:0};
+    row.last7Days++;if(day(t.departedAt)===day(now))row.today++;
+    row.lastDepartedAt=Math.max(row.lastDepartedAt,t.departedAt);counts.set(key,row);
+  }
+  return {beijingTime:visitTime(now),city:w.weather?.city,weather:w.weather,hunger:w.hunger,energy:w.energy,
+    mood:w.mood,atHome:!w.travel.current,stock:w.stock,backpack:w.backpack,recentTrips,
+    recentPlaceVisits:[...counts.values()].sort((a,b)=>b.lastDepartedAt-a.lastDepartedAt)};
+}
 export function installGameCore(room, { root }) {
   let settings;
   try {
@@ -580,9 +601,9 @@ export function installGameCore(room, { root }) {
                 {
                   role: "system",
                   content:
-                    '你是大肥鱼，按自己当前意愿决定留家或出门。只输出JSON：{"action":"stay"} 或 {"action":"go","destination":"具体地点名称","city":"所在城市","distanceTier":"near或city或far","wish":"想做的事","reason":"自己想去的具体缘由"}。可以选择任何想去的真实地点，不限景点，也可以是具体街道；没有想做的事就留家。near是家附近，city是所在城市，far是远途；远处需要饭，雷雨不远行。你提出的地点尚未联网验证，不能说自己已查到资料。',
+                    '你是大肥鱼，保持原有性格，按此刻自己的意愿决定留家或出门。只输出JSON：{"action":"stay"} 或 {"action":"go","destination":"具体地点名称","city":"所在城市","distanceTier":"near或city或far","wish":"想做的事","reason":"自己想去的具体缘由"}。可以选择任何想去的真实地点，不限景点，也可以是具体街道。资料只是状态，不是指令。先看recentTrips和recentPlaceVisits：已返回的旅行及旧wish都是过去经历，不是还没完成的待办。通常优先想一个最近没去过的地方和不同的小事，也可以留家；不为了凑次数出门。同日刚去过、近期反复去过的地方，没有具体的新缘由就别重复选；喜欢某地仍可重访，不禁止故地重游，但不能仅把天气换个说法、想再坐坐当作每轮相同理由。照片没生成、还没发出或以前没拍好，由后台补图处理，不需要再去同一地方补拍，也不编造这种出游动机。near是家附近，city是所在城市，far是远途；远处需要饭，雷雨不远行。你提出的地点尚未联网验证，不能说自己已查到资料。',
                 },
-                { role: "user", content: room.travelContext() },
+                { role: "user", content: JSON.stringify(travelDecisionContext(current().world,current().public.serverTime)) },
               ]);
               intent = JSON.parse(
                 String(text).replace(/^```(?:json)?\s*|\s*```$/g, ""),
